@@ -2,10 +2,6 @@ package com.exemplo.banco;
 
 import java.util.HashMap;
 
-/**
- * ADAPTER: expõe a interface moderna e traduz para a interface legada.
- * Também converte a resposta do legado para o formato moderno (bidirecional).
- */
 public class AdaptadorProcessadorTransacoes implements ProcessadorTransacoes {
 
     private final SistemaBancarioLegado legado;
@@ -15,16 +11,13 @@ public class AdaptadorProcessadorTransacoes implements ProcessadorTransacoes {
         this.legado = legado;
         this.configuracao = configuracao;
     }
-
-    // ===== Moderna -> Legado =====
     @Override
     public RespostaAutorizacao autorizar(String cartao, double valor, String moeda) {
         HashMap<String,Object> reqLegado = paraLegado(cartao, valor, moeda);
         HashMap<String,Object> respLegado = legado.processarTransacao(reqLegado);
         return deLegado(respLegado);
     }
-
-    /** Converte a requisição moderna para o mapa exigido pelo legado. */
+    
     public HashMap<String,Object> paraLegado(String cartao, double valor, String moeda){
         var mapa = new HashMap<String,Object>();
         mapa.put("CARTAO", cartao);
@@ -37,8 +30,6 @@ public class AdaptadorProcessadorTransacoes implements ProcessadorTransacoes {
         return mapa;
     }
 
-    // ===== Legado -> Moderna =====
-    /** Converte a resposta do legado para o DTO moderno. */
     public RespostaAutorizacao deLegado(HashMap<String,Object> resposta){
         String status = (String) resposta.getOrDefault("STATUS", "ERRO");
         String codRet = (String) resposta.getOrDefault("COD_RETORNO", "99");
