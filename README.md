@@ -6,7 +6,7 @@ Cada algoritmo implementa a interface `AlgoritmoRisco`, e o cliente (`Calculador
 
 ## Justificativa
 O padrão **Strategy** resolve o problema de ter vários algoritmos intercambiáveis, mantendo o código flexível e sem duplicação.
----
+
 # Questão 2 — Adapter
 
 ## Decisão de design
